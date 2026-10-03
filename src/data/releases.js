@@ -3,6 +3,7 @@ export const releases = [
     slug: 'capture-queue-1-1',
     title: 'Capture Queue 1.1',
     date: '2026-08-12',
+    status: 'Shipped',
     summary:
       'Faster, more reliable capture ingestion with a reworked retry queue and clearer failure states.',
     highlights: [
@@ -15,6 +16,7 @@ export const releases = [
     slug: 'asset-review-1-2',
     title: 'Asset Review 1.2',
     date: '2026-09-03',
+    status: 'Rolling out',
     summary:
       'A streamlined asset review flow with inline comments and bulk approval actions.',
     highlights: [
@@ -27,6 +29,7 @@ export const releases = [
     slug: 'workspace-insights-1-3',
     title: 'Workspace Insights 1.3',
     date: '2026-09-24',
+    status: 'Planned',
     summary:
       'Workspace-level dashboards for throughput, review quality, and reuse across teams.',
     highlights: [
