@@ -12,7 +12,9 @@ export default function Home() {
   const [status, setStatus] = useState('all')
 
   const filtered = releases.filter((release) => {
-    const matchesSearch = search === '' || release.title.includes(search)
+    const matchesSearch =
+      search === '' ||
+      release.title.toLowerCase().includes(search.toLowerCase())
     const matchesStatus = status === 'all' || release.status === status
     return matchesSearch && matchesStatus
   })
@@ -27,31 +29,54 @@ export default function Home() {
         <p className="mt-2 text-slate-600">What&apos;s new across Nicelydone.</p>
       </header>
 
-      <div className="mb-6 flex flex-col gap-3 sm:flex-row">
-        <input
-          type="text"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          placeholder="Search releases"
-          className="flex-1 rounded-lg border border-slate-300 px-3 py-2 text-sm shadow-sm focus:border-slate-400 focus:outline-none"
-        />
-        <select
-          value={status}
-          onChange={(e) => setStatus(e.target.value)}
-          className="rounded-lg border border-slate-300 px-3 py-2 text-sm shadow-sm focus:border-slate-400 focus:outline-none"
-        >
-          <option value="all">All statuses</option>
-          {STATUSES.map((s) => (
-            <option key={s} value={s}>
-              {s}
-            </option>
-          ))}
-        </select>
+      <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-end">
+        <div className="flex-1">
+          <label
+            htmlFor="release-search"
+            className="mb-1 block text-sm font-medium text-slate-700"
+          >
+            Search releases
+          </label>
+          <input
+            id="release-search"
+            type="text"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder="Search by title"
+            className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm shadow-sm focus:border-slate-400 focus:outline-none"
+          />
+        </div>
+        <div>
+          <label
+            htmlFor="release-status"
+            className="mb-1 block text-sm font-medium text-slate-700"
+          >
+            Status
+          </label>
+          <select
+            id="release-status"
+            value={status}
+            onChange={(e) => setStatus(e.target.value)}
+            className="rounded-lg border border-slate-300 px-3 py-2 text-sm shadow-sm focus:border-slate-400 focus:outline-none"
+          >
+            <option value="all">All statuses</option>
+            {STATUSES.map((s) => (
+              <option key={s} value={s}>
+                {s}
+              </option>
+            ))}
+          </select>
+        </div>
       </div>
 
-      <ul className="space-y-4">
-        {filtered.map((release) => (
-          <li key={release.slug}>
+      {filtered.length === 0 ? (
+        <p className="rounded-lg border border-slate-200 bg-slate-50 p-6 text-sm text-slate-600">
+          No releases match your search.
+        </p>
+      ) : (
+        <ul className="space-y-4">
+          {filtered.map((release) => (
+            <li key={release.slug}>
             <Link
               href={`/releases/${release.slug}`}
               className="block rounded-xl border border-slate-200 bg-white p-6 shadow-sm transition hover:border-slate-300 hover:shadow"
@@ -64,10 +89,11 @@ export default function Home() {
               <span className="mt-3 inline-block rounded-full bg-slate-100 px-2.5 py-0.5 text-xs font-medium text-slate-600">
                 {release.status}
               </span>
-            </Link>
-          </li>
-        ))}
-      </ul>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      )}
     </main>
   )
 }
